@@ -39,7 +39,7 @@ class Constants {
     static EMBED_COLORS: EmbedColorsType = {
         ACCEPTED: "#00FF00",
         DENIED: "#FF0000",
-        
+
         UPDATE_IN_PROGRESS: "#00bbff",
         UPDATE_COMPLETED_WITH_NO_ERRORS: "#00FF00",
         UPDATE_COMPLETED_WITH_ERRORS: "#ff9900"
@@ -48,7 +48,12 @@ class Constants {
     static ROLES = {
         ALUVIAO: process.env.ALUVIAO_ROLE_ID as string,
         VETERANO: process.env.VETERANO_ROLE_ID as string,
-        COMISSAO_DE_FAINA: process.env.COMISSAO_DE_FAINA_ROLE_ID as string
+        COMISSAO_DE_FAINA: process.env.CF_ROLE_ID as string,
+        MESTRE_DE_CURSO: process.env.MC_ROLE_ID as string,
+        CS_ST: process.env.CS_ST_ROLE_ID as string,
+        MESTRE_DO_SALGADO: process.env.MS_ROLE_ID as string,
+        MESTRE_PESCADOR: process.env.MP_ROLE_ID as string,
+        MESTRE_ESCRIVAO: process.env.ME_ROLE_ID as string,
     }
 }
 

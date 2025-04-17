@@ -98,6 +98,9 @@ const cfect_commands = [
     new SlashCommandBuilder().setName('update-matriculas').setDescription('Atualiza a matrícula de todos os utilizadores')
         .setDefaultMemberPermissions(0),
 
+    new SlashCommandBuilder().setName('fix-names').setDescription('Corrige os nomes de utilizadores')
+        .setDefaultMemberPermissions(0),
+
     new SlashCommandBuilder().setName('find-user').setDescription('Procura utilizadores')
         .addStringOption(option => option.setName('query').setDescription('Query a procurar (número mecanográfico ou parte do nome)').setRequired(true))
         .setDefaultMemberPermissions(0),

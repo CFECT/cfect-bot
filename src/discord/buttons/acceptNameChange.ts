@@ -28,7 +28,7 @@ export default class AcceptNameChange extends Button {
 
         await Database.run("UPDATE Users SET NomeDeFaina = ? WHERE DiscordID = ?", [nameChange.NomeNovo, nameChange.DiscordID]);
         await Database.run("DELETE FROM NameChanges WHERE ID = ?", [id]);
-        const formattedName = await Utils.getFormattedName(nameChange.DiscordID, nameChange.NomeNovo);
+        const formattedName = await Utils.getFormattedName(user, nameChange.NomeNovo);
         await user.setNickname(formattedName, "Mudança de nome efetuada pela Comissão de Faina");
 
         const originalEmbed = interaction.message.embeds[0].toJSON();

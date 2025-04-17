@@ -3,39 +3,32 @@ import Constants from './Constants';
 import Database from './Database.js';
 
 class Utils {
-    public static async getFormattedName(discordId: string, name: string): Promise<string> {
-        const user = await Database.get("SELECT * FROM Users WHERE DiscordID = ?", [discordId]);
-        if (!user)
-            return name;
-
-        const year = user.Matricula >= 5 ? 5 : user.Matricula as number;
-        const sex = user.Sexo === 'F' ? 'F' : 'M';
-
-        for (let rank of Object.values(Constants.ranks))
-            if (Object.values(rank).includes(name.split(' ')[0]))
-                name = name.split(' ').slice(1).join(' ');
-
-        const rank = user.FainaCompleta ? Constants.ranks[year][sex] : `[A${user.NumeroAluviao}]`
-
-        return `${rank} ${name}`;
-    }
-
-    public static async getFormattedNameFromUser(user: GuildMember): Promise<string> {
+    public static async getFormattedName(user: GuildMember, name?: string): Promise<string> {
         const userDb = await Database.get("SELECT * FROM Users WHERE DiscordID = ?", [user.id]);
         if (!userDb)
-            return await Utils.getFormattedName(user.id, user.user.username);
+            return name ? name : user.displayName;
 
         const year = userDb.Matricula >= 5 || userDb.Matricula <= 0 ? 5 : userDb.Matricula as number;
         const sex = userDb.Sexo === 'F' ? 'F' : 'M';
-        const name = userDb.NomeDeFaina;
+        if (name) {
+            for (let rank of Object.values(Constants.ranks))
+                if (Object.values(rank).includes(name.split(' ')[0]))
+                    name = name.split(' ').slice(1).join(' ');
+        }
 
-        const rank = userDb.FainaCompleta ? Constants.ranks[year][sex] : `[A${userDb.NumeroAluviao}]`
+        let rank = userDb.FainaCompleta ? Constants.ranks[year][sex] : `[A${userDb.NumeroAluviao}]`
+        if (user.roles.cache.has(Constants.ROLES.CS_ST)) rank = "Conselheiro";
+        if (user.roles.cache.has(Constants.ROLES.MESTRE_DO_SALGADO)) rank = "Mestre do Salgado";
+        if (user.roles.cache.has(Constants.ROLES.MESTRE_PESCADOR)) rank = "Mestre Pescador";
+        if (user.roles.cache.has(Constants.ROLES.MESTRE_ESCRIVAO)) rank = "Mestre Escrivão";
+        if (user.roles.cache.has(Constants.ROLES.MESTRE_DE_CURSO)) rank = "Mestre de Curso";
 
-        return `${rank} ${name}`;
+        return `${rank} ${name ? name : userDb.NomeDeFaina}`;
     }
 
     public static async updateNickname(user: GuildMember): Promise<void> {
-        const newName = await Utils.getFormattedNameFromUser(user);
+        if (!user.manageable) return;
+        const newName = await Utils.getFormattedName(user);
         await user.setNickname(newName);
     }
 

@@ -22,7 +22,7 @@ export default class DeclineNameChange extends Button {
             return;
         }
 
-        const formattedName = await Utils.getFormattedName(nameChange.DiscordID, nameChange.NomeNovo);
+        const formattedName = await Utils.getFormattedName(user, nameChange.NomeNovo);
         await Database.run("DELETE FROM NameChanges WHERE ID = ?", [id]);
 
         const originalEmbed = interaction.message.embeds[0].toJSON();

@@ -41,7 +41,12 @@ export default class NomeDeFainaCommand extends Command {
             .addComponents(acceptButton)
             .addComponents(declineButton);
 
-        const formattedNewName = await Utils.getFormattedName(interaction.user.id, newName as string);
+        const user = await interaction.guild?.members.fetch(interaction.user.id);
+        if (!user) {
+            await interaction.editReply({ content: "Utilizador não encontrado!" });
+            return;
+        }
+        const formattedNewName = await Utils.getFormattedName(user, newName as string);
 
         const embed = new EmbedBuilder()
             .setTitle(`Pedido de Mudança de Nome #${id}`)
