@@ -98,7 +98,7 @@ const cfect_commands = [
     new SlashCommandBuilder().setName('update-matriculas').setDescription('Atualiza a matrícula de todos os utilizadores')
         .setDefaultMemberPermissions(0),
 
-    new SlashCommandBuilder().setName('fix-names').setDescription('Corrige os nomes de utilizadores')
+    new SlashCommandBuilder().setName('enforce-member-structure').setDescription('Atualiza os nomes e roles dos utilizadores')
         .setDefaultMemberPermissions(0),
 
     new SlashCommandBuilder().setName('find-user').setDescription('Procura utilizadores')

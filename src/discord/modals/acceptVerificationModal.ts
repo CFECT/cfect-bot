@@ -58,7 +58,13 @@ export default class AcceptVerificationModal extends Modal {
         await interaction.guild?.members.fetch(discordId).then(async (member) => {
             try {
                 await Utils.updateNickname(member);
-                await member.roles.add(interaction.customId.split("-")[1] === "1" ? Constants.ROLES.VETERANO : Constants.ROLES.ALUVIAO);
+                if (interaction.customId.split("-")[1] === "1") {
+                    await member.roles.add(Constants.ROLES.VETERANO);
+                    if (Number(matricula.value) >= 5)
+                        await member.roles.add(Constants.ROLES.MESTRE);
+                } else {
+                    await member.roles.add(Constants.ROLES.ALUVIAO);
+                }
             } catch (error) {
                 console.error(error);
             }

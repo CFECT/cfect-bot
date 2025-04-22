@@ -32,10 +32,13 @@ export default class CompletarFainaUCM extends UserContextMenu {
 
         if (fainaCompleta) {
             await member.roles.remove(Constants.ROLES.VETERANO);
+            await member.roles.remove(Constants.ROLES.MESTRE);
             await member.roles.add(Constants.ROLES.ALUVIAO);
         } else {
             await member.roles.remove(Constants.ROLES.ALUVIAO);
             await member.roles.add(Constants.ROLES.VETERANO);
+            if (userDb.Matricula >= 5)
+                await member.roles.add(Constants.ROLES.MESTRE);
         }
 
         await Utils.updateNickname(member);

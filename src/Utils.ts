@@ -1,4 +1,4 @@
-import { EmbedBuilder, GuildMember, Message, MessageEditOptions } from 'discord.js';
+import { EmbedBuilder, Guild, GuildMember, Message, MessageEditOptions } from 'discord.js';
 import Constants from './Constants';
 import Database from './Database.js';
 
@@ -17,11 +17,13 @@ class Utils {
         }
 
         let rank = userDb.FainaCompleta ? Constants.ranks[year][sex] : `[A${userDb.NumeroAluviao}]`
-        if (user.roles.cache.has(Constants.ROLES.CS_ST)) rank = "Conselheiro";
-        if (user.roles.cache.has(Constants.ROLES.MESTRE_DO_SALGADO)) rank = "Mestre do Salgado";
-        if (user.roles.cache.has(Constants.ROLES.MESTRE_PESCADOR)) rank = "Mestre Pescador";
-        if (user.roles.cache.has(Constants.ROLES.MESTRE_ESCRIVAO)) rank = "Mestre Escrivão";
-        if (user.roles.cache.has(Constants.ROLES.MESTRE_DE_CURSO)) rank = "Mestre de Curso";
+        if (userDb.FainaCompleta) {
+            if (user.roles.cache.has(Constants.ROLES.CS_ST)) rank = "Conselheiro";
+            if (user.roles.cache.has(Constants.ROLES.MESTRE_DO_SALGADO)) rank = "Mestre do Salgado";
+            if (user.roles.cache.has(Constants.ROLES.MESTRE_PESCADOR)) rank = "Mestre Pescador";
+            if (user.roles.cache.has(Constants.ROLES.MESTRE_ESCRIVAO)) rank = "Mestre Escrivão";
+            if (user.roles.cache.has(Constants.ROLES.MESTRE_DE_CURSO)) rank = "Mestre de Curso";
+        }
 
         return `${rank} ${name ? name : userDb.NomeDeFaina}`;
     }
@@ -69,6 +71,8 @@ class Utils {
             await Database.run(query, [year, member.id]).then(async () => {
                 if (year <= 5)
                     await Utils.updateNickname(member);
+                if (year >= 5)
+                    await member.roles.add(Constants.ROLES.MESTRE);
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }).catch((error) => {
                 processing_errors.push(`- ${member.displayName} - ${member.id} - ${error}`);
@@ -258,6 +262,8 @@ class Utils {
             await Database.run(query, [nmec]).then(async () => {
                 await member.roles.remove(Constants.ROLES.ALUVIAO);
                 await member.roles.add(Constants.ROLES.VETERANO);
+                if (user.Matricula >= 5)
+                    await member.roles.add(Constants.ROLES.MESTRE);
                 await Utils.updateNickname(member);
             }).catch((error) => {
                 processing_errors.push(`- Line ${current} - ${nmec} - ${error}`);
@@ -298,6 +304,27 @@ class Utils {
         }
 
         await message.edit(messageToSend);
+    }
+
+    public static async *enforceMemberStructure(guild: Guild): AsyncGenerator<GuildMember> {
+        const users = await guild.members.fetch();
+        for (const user of users?.values() || []) {
+            if (user.user.bot) continue;
+            if (!user.manageable) continue;
+            if (user.roles.cache.size === 0) continue;
+
+            const userDb = await Database.get("SELECT * FROM Users WHERE DiscordID = ?", [user.id]);
+            if (!userDb) continue;
+
+            yield user;
+
+            const formattedName = await Utils.getFormattedName(user);
+            if (user.nickname !== formattedName) await user.setNickname(formattedName, "Correção de nomes automática");
+            if (userDb.Matricula >= 5)
+                await user.roles.add(Constants.ROLES.MESTRE);
+            else
+                await user.roles.remove(Constants.ROLES.MESTRE);
+        }
     }
 }
 

@@ -48,6 +48,7 @@ class Constants {
     static ROLES = {
         ALUVIAO: process.env.ALUVIAO_ROLE_ID as string,
         VETERANO: process.env.VETERANO_ROLE_ID as string,
+        MESTRE: process.env.MESTRE_ROLE_ID as string,
         COMISSAO_DE_FAINA: process.env.CF_ROLE_ID as string,
         MESTRE_DE_CURSO: process.env.MC_ROLE_ID as string,
         CS_ST: process.env.CS_ST_ROLE_ID as string,
