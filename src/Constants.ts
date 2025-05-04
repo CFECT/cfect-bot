@@ -28,6 +28,7 @@ class Constants {
         5: {'M': 'Mestre', 'F': 'Mestre'}
     };
 
+    static GUILD_ID = process.env.GUILD_ID as string;
     static VERIFICATION_CHANNEL_ID = process.env.VERIFICATIONS_CHANNEL_ID as string;
     static DMS_CHANNEL_ID = process.env.DMS_CHANNEL_ID as string;
 

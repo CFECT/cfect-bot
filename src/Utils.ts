@@ -22,7 +22,12 @@ class Utils {
             if (user.roles.cache.has(Constants.ROLES.MESTRE_DO_SALGADO)) rank = "Mestre do Salgado";
             if (user.roles.cache.has(Constants.ROLES.MESTRE_PESCADOR)) rank = "Mestre Pescador";
             if (user.roles.cache.has(Constants.ROLES.MESTRE_ESCRIVAO)) rank = "Mestre Escrivão";
-            if (user.roles.cache.has(Constants.ROLES.MESTRE_DE_CURSO)) rank = "Mestre de Curso";
+            if (user.roles.cache.has(Constants.ROLES.MESTRE_DE_CURSO)) {
+                if (userDb.Matricula >= 5)
+                    rank = "Mestre de Curso";
+                else
+                    rank = userDb.Sexo === 'F' ? "Varina" : "Arrais";
+            }
         }
 
         return `${rank} ${name ? name : userDb.NomeDeFaina}`;
@@ -320,9 +325,9 @@ class Utils {
 
             const formattedName = await Utils.getFormattedName(user);
             if (user.nickname !== formattedName) await user.setNickname(formattedName, "Correção de nomes automática");
-            if (userDb.Matricula >= 5)
+            if (userDb.Matricula >= 5 && !user.roles.cache.has(Constants.ROLES.MESTRE))
                 await user.roles.add(Constants.ROLES.MESTRE);
-            else
+            else if (userDb.Matricula < 5 && user.roles.cache.has(Constants.ROLES.MESTRE))
                 await user.roles.remove(Constants.ROLES.MESTRE);
         }
     }

@@ -8,6 +8,7 @@ import ModalRegistry from "./registry/ModalRegistry";
 import Database from "../Database";
 import Reminders from "./managers/Reminders";
 import Backups from "./managers/Backups";
+import Enforcers from "./managers/Enforcers";
 
 class DiscordBot {
     private client: Client;
@@ -33,6 +34,7 @@ class DiscordBot {
         this.registerEvents();
         await Database.init();
         await Reminders.init(this.client);
+        await Enforcers.init(this.client);
         MentionableSelectMenuRegistry.registerMentionableSelectMenus();
         UserContextMenuRegistry.registerUserContextMenus();
         CommandRegistry.registerCommands();
