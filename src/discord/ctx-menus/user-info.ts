@@ -29,6 +29,7 @@ export default class UserInfoUCM extends UserContextMenu {
         const embed = new EmbedBuilder()
             .setColor(Constants.EMBED_COLORS.ACCEPTED)
             .setTitle("Informação do Utilizador")
+            .setDescription(`<@${discordId}>`)
             .setAuthor({
                 name: `${member.user.username} (${member.user.id})`,
                 iconURL: member.user.displayAvatarURL()
