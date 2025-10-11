@@ -31,6 +31,11 @@ const global_commands = [
         )
         .setDefaultMemberPermissions(0),
 
+    new SlashCommandBuilder().setName('delete-user').setDescription('Deletes a user from the database')
+        .addStringOption(option => option.setName('nmec').setDescription('Número mecanográfico do utilizador a eliminar'))
+        .addStringOption(option => option.setName('discord-id').setDescription('ID do Discord do utilizador a eliminar'))
+        .setDefaultMemberPermissions(0),
+
     new SlashCommandBuilder().setName('backup-database').setDescription('Backs up the database')
         .setDefaultMemberPermissions(0),
 ].map(command => command.toJSON());
