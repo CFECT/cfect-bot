@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, UserContextMenuCommandInteraction } from "discord.js";
+import { ActionRowBuilder, MessageFlags, ModalBuilder, TextInputBuilder, TextInputStyle, UserContextMenuCommandInteraction } from "discord.js";
 import Database from "../../Database";
 import { UserContextMenu } from "../registry/UserContextMenu";
 
@@ -13,7 +13,7 @@ export default class NumeroAluviaoUCM extends UserContextMenu {
 
         const userDb = await Database.get("SELECT * FROM Users WHERE DiscordID = ?", [user?.id]);
         if (!userDb) {
-            await interaction.reply({ content: "Não foi possível encontrar o utilizador.", ephemeral: true });
+            await interaction.reply({ content: "Não foi possível encontrar o utilizador.", flags: MessageFlags.Ephemeral });
             return;
         }
 

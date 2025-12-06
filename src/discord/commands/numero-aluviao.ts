@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction, CommandInteraction, MessageFlags } from "discord.js";
 import { Command } from "../registry/Command";
 import Database from "../../Database";
 import Utils from "../../Utils";
@@ -8,8 +8,8 @@ export default class NumeroAluviaoCommand extends Command {
         super("numero-aluviao", "Define o número de aluvião de um utilizador");
     }
 
-    public async execute(interaction: CommandInteraction): Promise<void> {
-        await interaction.deferReply({ ephemeral: true });
+    public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const user = interaction.options.get('utilizador')?.user;
         const number = interaction.options.get('numero')?.value;

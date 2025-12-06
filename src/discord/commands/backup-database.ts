@@ -1,4 +1,5 @@
 import type { CommandInteraction } from "discord.js";
+import { MessageFlags } from "discord.js";
 import { Command } from "../registry/Command";
 import Constants from "../../Constants";
 import Backups from "../managers/Backups";
@@ -9,7 +10,7 @@ export default class BackupDatabaseCommand extends Command {
     }
 
     public async execute(interaction: CommandInteraction): Promise<void> {
-        interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         try {
             await Backups.backup(interaction.user);

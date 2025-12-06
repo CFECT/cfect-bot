@@ -1,4 +1,4 @@
-import { EmbedBuilder, type ChatInputCommandInteraction } from "discord.js";
+import { EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from "discord.js";
 import { Command } from "../registry/Command";
 import Database from "../../Database";
 import Constants from "../../Constants";
@@ -11,7 +11,7 @@ export default class FindUserCommand extends Command {
     private static readonly MAX_USERS = 8;
 
     public async execute(interaction: ChatInputCommandInteraction) {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const query = interaction.options.getString("query", true);
 

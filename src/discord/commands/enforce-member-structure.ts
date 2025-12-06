@@ -1,4 +1,4 @@
-import { CommandInteraction, EmbedBuilder } from "discord.js";
+import { CommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
 import { Command } from "../registry/Command";
 import Constants from "../../Constants";
 import Utils from "../../Utils";
@@ -9,7 +9,7 @@ export default class EnforceMemberStructureCommand extends Command {
     }
 
     public async execute(interaction: CommandInteraction): Promise<void> {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const embed = new EmbedBuilder()
             .setTitle("Atualização de dados")

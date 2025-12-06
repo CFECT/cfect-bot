@@ -57,6 +57,12 @@ class Constants {
         MESTRE_PESCADOR: process.env.MP_ROLE_ID as string,
         MESTRE_ESCRIVAO: process.env.ME_ROLE_ID as string,
     }
+
+    static FIREFLY = {
+        API_URL: process.env.FIREFLY_API_URL as string,
+        API_TOKEN: process.env.FIREFLY_API_TOKEN as string,
+        ACCOUNT_ID: process.env.FIREFLY_ACCOUNT_ID as string
+    }
 }
 
 export default Constants;

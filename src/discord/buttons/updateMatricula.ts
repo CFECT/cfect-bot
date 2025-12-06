@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ComponentType, EmbedBuilder } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ComponentType, EmbedBuilder, MessageFlags } from "discord.js";
 import { Button } from "../registry/Button";
 import Utils from "../../Utils";
 import Constants from "../../Constants";
@@ -9,10 +9,25 @@ export default class UpdateMatriculaButton extends Button {
     }
 
     public async execute(interaction: ButtonInteraction): Promise<void> {
-        await interaction.deferReply({ ephemeral: true });
-        
-        const currentButton = interaction.message.components![0].components[0];
-        if (currentButton.type !== ComponentType.Button) return;
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+
+        // const currentButton = interaction.message.components![0].components[0];
+        // if (currentButton.type !== ComponentType.Button) return;
+
+        const firstRow = interaction.message.components![0];
+
+        // Type guard to ensure we have an ActionRow
+        if (!firstRow || firstRow.type !== ComponentType.ActionRow) {
+            await interaction.editReply({ content: "Erro ao obter os componentes da mensagem." });
+            return;
+        }
+
+        const currentButton = firstRow.components[0];
+
+        if (currentButton.type !== ComponentType.Button) {
+            await interaction.editReply({ content: "Erro ao obter o botão." });
+            return;
+        }
 
         const member = await interaction.guild?.members.fetch(interaction.user.id);
         if (!member) {

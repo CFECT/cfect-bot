@@ -1,4 +1,4 @@
-import { ModalSubmitInteraction, EmbedBuilder } from "discord.js";
+import { EmbedBuilder, MessageFlags, ModalSubmitInteraction } from "discord.js";
 import { Modal } from "../registry/Modal";
 import Constants from "../../Constants";
 import Database from "../../Database";
@@ -17,7 +17,7 @@ export default class EditUserModal extends Modal {
             }
         });
 
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const verification = await Database.get("SELECT * FROM Users WHERE DiscordID = ?", [interaction.customId.split("-")[1]]);
         const discordId = verification.DiscordID;

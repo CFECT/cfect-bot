@@ -1,4 +1,4 @@
-import { ModalSubmitInteraction, ButtonBuilder, ActionRowBuilder, ButtonStyle, EmbedBuilder } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, MessageFlags, ModalSubmitInteraction } from "discord.js";
 import { Modal } from "../registry/Modal";
 import Constants from "../../Constants";
 import Database from "../../Database";
@@ -16,7 +16,7 @@ export default class VerificationModal extends Modal {
             }
         });
 
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const channel = interaction.guild?.channels.cache.get(Constants.VERIFICATION_CHANNEL_ID);
         if (!channel || !channel.isTextBased()) {

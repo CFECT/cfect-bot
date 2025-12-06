@@ -1,4 +1,4 @@
-import { CommandInteraction, ButtonBuilder, ButtonStyle, ActionRowBuilder, EmbedBuilder } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, CommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
 import { Command } from "../registry/Command";
 import Database from "../../Database";
 import Utils from "../../Utils"
@@ -9,8 +9,8 @@ export default class NomeDeFainaCommand extends Command {
         super("nome-de-faina", "Efetua o pedido de mudança de nome no servidor");
     }
 
-    public async execute(interaction: CommandInteraction): Promise<void> {
-        await interaction.deferReply({ ephemeral: true });
+    public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         let newName = interaction.options.get('nome')?.value;
 

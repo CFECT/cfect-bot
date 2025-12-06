@@ -1,4 +1,4 @@
-import { ModalSubmitInteraction } from "discord.js";
+import { MessageFlags, ModalSubmitInteraction } from "discord.js";
 import { Modal } from "../registry/Modal";
 import Database from "../../Database";
 import Utils from "../../Utils";
@@ -16,7 +16,7 @@ export default class NumeroAluviaoModal extends Modal {
             }
         });
 
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const discordId = interaction.customId.split("-")[1];
         if (!discordId) {

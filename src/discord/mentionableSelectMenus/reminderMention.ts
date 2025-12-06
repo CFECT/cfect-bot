@@ -1,4 +1,4 @@
-import { MentionableSelectMenuInteraction } from "discord.js";
+import { MentionableSelectMenuInteraction, MessageFlags } from "discord.js";
 import { MentionableSelectMenu } from "../registry/MentionableSelectMenu";
 import Reminders from "../managers/Reminders";
 
@@ -8,7 +8,7 @@ export default class ReminderMention extends MentionableSelectMenu {
     }
 
     public async execute(interaction: MentionableSelectMenuInteraction): Promise<void> {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
         const reminderId = parseInt(interaction.customId.split("-")[1]);
 
         if (!Reminders.checkIfReminderExists(reminderId)) {

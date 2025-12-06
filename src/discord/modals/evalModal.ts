@@ -1,4 +1,4 @@
-import { ModalSubmitInteraction, ButtonBuilder, ActionRowBuilder, ButtonStyle, Team, ChatInputCommandInteraction, codeBlock, GuildChannel, CategoryChannel, TextChannel, EmbedBuilder } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CategoryChannel, ChatInputCommandInteraction, EmbedBuilder, GuildChannel, MessageFlags, ModalSubmitInteraction, Team, TextChannel, codeBlock } from "discord.js";
 import { Modal } from "../registry/Modal";
 import { Type } from "../../Type";
 import { inspect } from "util";
@@ -16,7 +16,7 @@ export default class EvalModal extends Modal {
             }
         });
 
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const code = values.find((value) => value.name === "code")?.value;
         if (!code) {

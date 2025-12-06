@@ -1,4 +1,5 @@
 import type { Client, Interaction } from "discord.js";
+import { MessageFlags } from "discord.js";
 import CommandRegistry from "../registry/CommandRegistry";
 import ButtonRegistry from "../registry/ButtonRegistry";
 import ModalRegistry from "../registry/ModalRegistry";
@@ -22,7 +23,7 @@ function runCommand(_: Client, interaction: Interaction) {
 
     // If the command does not exist, return
     if (!command) {
-        interaction.reply({ content: "Command not found.", ephemeral: true });
+        interaction.reply({ content: "Command not found.", flags: MessageFlags.Ephemeral });
         return;
     }
 
@@ -31,7 +32,7 @@ function runCommand(_: Client, interaction: Interaction) {
         command.execute(interaction);
     } catch (error) {
         console.error(error);
-        interaction.reply({ content: "There was an error while executing this command!", ephemeral: true });
+        interaction.reply({ content: "There was an error while executing this command!", flags: MessageFlags.Ephemeral });
     }
 }
 
@@ -44,7 +45,7 @@ function runModal(_: Client, interaction: Interaction) {
 
     // If the modal does not exist, return
     if (!modal) {
-        interaction.reply({ content: "Modal not found.", ephemeral: true });
+        interaction.reply({ content: "Modal not found.", flags: MessageFlags.Ephemeral });
         return;
     }
 
@@ -53,7 +54,7 @@ function runModal(_: Client, interaction: Interaction) {
         modal.execute(interaction);
     } catch (error) {
         console.error(error);
-        interaction.reply({ content: "There was an error while executing this modal!", ephemeral: true });
+        interaction.reply({ content: "There was an error while executing this modal!", flags: MessageFlags.Ephemeral });
     }
 }
 
@@ -66,7 +67,7 @@ function runButton(_: Client, interaction: Interaction) {
 
     // If the button does not exist, return
     if (!button) {
-        interaction.reply({ content: "Button not found.", ephemeral: true });
+        interaction.reply({ content: "Button not found.", flags: MessageFlags.Ephemeral });
         return;
     }
 
@@ -75,7 +76,7 @@ function runButton(_: Client, interaction: Interaction) {
         button.execute(interaction);
     } catch (error) {
         console.error(error);
-        interaction.reply({ content: "There was an error while executing this button!", ephemeral: true });
+        interaction.reply({ content: "There was an error while executing this button!", flags: MessageFlags.Ephemeral });
     }
 }
 
@@ -88,7 +89,7 @@ function runUserContextMenu(_: Client, interaction: Interaction) {
 
     // If the userContextMenu does not exist, return
     if (!userContextMenu) {
-        interaction.reply({ content: "User context menu not found.", ephemeral: true });
+        interaction.reply({ content: "User context menu not found.", flags: MessageFlags.Ephemeral });
         return;
     }
 
@@ -97,7 +98,7 @@ function runUserContextMenu(_: Client, interaction: Interaction) {
         userContextMenu.execute(interaction);
     } catch (error) {
         console.error(error);
-        interaction.reply({ content: "There was an error while executing this user context menu!", ephemeral: true });
+        interaction.reply({ content: "There was an error while executing this user context menu!", flags: MessageFlags.Ephemeral });
     }
 }
 
@@ -110,7 +111,7 @@ function runMentionableSelectMenu(_: Client, interaction: Interaction) {
 
     // If the mentionableSelectMenu does not exist, return
     if (!mentionableSelectMenu) {
-        interaction.reply({ content: "Mentionable Select Menu not found.", ephemeral: true });
+        interaction.reply({ content: "Mentionable Select Menu not found.", flags: MessageFlags.Ephemeral });
         return;
     }
 
@@ -119,6 +120,6 @@ function runMentionableSelectMenu(_: Client, interaction: Interaction) {
         mentionableSelectMenu.execute(interaction);
     } catch (error) {
         console.error(error);
-        interaction.reply({ content: "There was an error while executing this mentionableSelectMenu!", ephemeral: true });
+        interaction.reply({ content: "There was an error while executing this mentionableSelectMenu!", flags: MessageFlags.Ephemeral });
     }
 }

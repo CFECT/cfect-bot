@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction, InteractionReplyOptions, Team } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction, InteractionEditReplyOptions, InteractionReplyOptions, Team } from "discord.js";
 import { Command } from "../registry/Command";
 import Constants from "../../Constants";
 
@@ -49,8 +49,8 @@ export default class UpdateMatriculasCommand extends Command {
                     .setStyle(ButtonStyle.Success)
                     .setEmoji("✅")
             );
-        
-        const message: InteractionReplyOptions = {
+
+        const message: InteractionEditReplyOptions = {
             content: `Votação para atualização de matrículas iniciada por ${interaction.user}. Aprovações necessárias: ${requiredVotes}`,
             components: [newButton]
         }

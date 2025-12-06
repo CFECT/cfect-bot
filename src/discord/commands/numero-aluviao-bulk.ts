@@ -1,4 +1,4 @@
-import { Attachment, CommandInteraction, EmbedBuilder, Team } from "discord.js";
+import { Attachment, ChatInputCommandInteraction, CommandInteraction, EmbedBuilder, MessageFlags, Team, TextChannel } from "discord.js";
 import { Command } from "../registry/Command";
 import Utils from "../../Utils";
 import Constants from "../../Constants";
@@ -8,8 +8,8 @@ export default class NumeroAluviaoBulkCommand extends Command {
         super("numero-aluviao-bulk", "Define o número de aluvião de vários utilizadores");
     }
 
-    public async execute(interaction: CommandInteraction): Promise<void> {
-        await interaction.deferReply({ ephemeral: true });
+    public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
         await interaction.client.application.fetch();
         const owner = interaction.client.application.owner;
         if (!owner) {
@@ -57,7 +57,9 @@ export default class NumeroAluviaoBulkCommand extends Command {
             .setColor(Constants.EMBED_COLORS.UPDATE_IN_PROGRESS)
             .setTimestamp(Date.now());
 
-        const message = await interaction.channel!.send({ embeds: [embed] });
+
+        const channel = interaction.channel as TextChannel;
+        const message = await channel.send({ embeds: [embed] });
         await Utils.updateNumerosAluviaoBulk(message, text);
     }
 }

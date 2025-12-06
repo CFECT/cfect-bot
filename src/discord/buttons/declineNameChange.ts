@@ -1,4 +1,4 @@
-import { ButtonInteraction, EmbedBuilder, GuildMember } from "discord.js";
+import { ButtonInteraction, EmbedBuilder, GuildMember, MessageFlags } from "discord.js";
 import { Button } from "../registry/Button";
 import Database from "../../Database";
 import Constants from "../../Constants";
@@ -13,12 +13,12 @@ export default class DeclineNameChange extends Button {
         const id = parseInt(interaction.customId.split("-")[1]);
         const nameChange = await Database.get("SELECT * FROM NameChanges WHERE ID = ?", [id]);
         if (!nameChange) {
-            await interaction.followUp({ content: "Pedido de mudança de nome não encontrado!", ephemeral: true });
+            await interaction.followUp({ content: "Pedido de mudança de nome não encontrado!", flags: MessageFlags.Ephemeral });
             return;
         }
         const user = await interaction.guild?.members.fetch(nameChange.DiscordID);
         if (!user) {
-            await interaction.followUp({ content: "Utilizador não encontrado!", ephemeral: true });
+            await interaction.followUp({ content: "Utilizador não encontrado!", flags: MessageFlags.Ephemeral });
             return;
         }
 
@@ -41,6 +41,6 @@ export default class DeclineNameChange extends Button {
         await user.send({ embeds: [dmEmbed] }).catch(() => { });
 
         await interaction.update({ embeds: [newEmbed], components: [] });
-        await interaction.followUp({ content: `Mudança de nome rejeitada!`, ephemeral: true });
+        await interaction.followUp({ content: `Mudança de nome rejeitada!`, flags: MessageFlags.Ephemeral });
     }
 }

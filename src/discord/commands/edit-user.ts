@@ -1,4 +1,4 @@
-import { ActionRowBuilder, CommandInteraction, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
+import { ActionRowBuilder, ChatInputCommandInteraction, CommandInteraction, MessageFlags, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 import { Command } from "../registry/Command";
 import Database from "../../Database";
 
@@ -7,19 +7,19 @@ export default class EditUserCommand extends Command {
         super("edit-user", "Edita os dados de um utilizador");
     }
 
-    public async execute(interaction: CommandInteraction): Promise<void> {
+    public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
         const user = interaction.options.get('utilizador')?.user;
         const discordId = user?.id;
         const member = interaction.guild?.members.cache.get(discordId as string);
 
         if (!member) {
-            await interaction.reply({ content: "Não foi possível encontrar o utilizador.", ephemeral: true });
+            await interaction.reply({ content: "Não foi possível encontrar o utilizador.", flags: MessageFlags.Ephemeral });
             return;
         }
 
         const userDb = await Database.get("SELECT * FROM Users WHERE DiscordID = ?", [discordId]);
         if (!userDb) {
-            await interaction.reply({ content: "Não foi possível encontrar o utilizador.", ephemeral: true });
+            await interaction.reply({ content: "Não foi possível encontrar o utilizador.", flags: MessageFlags.Ephemeral });
             return;
         }
 

@@ -1,4 +1,4 @@
-import { Team, type ChatInputCommandInteraction, type InteractionReplyOptions } from "discord.js";
+import { InteractionEditReplyOptions, MessageFlags, Team, type ChatInputCommandInteraction, type InteractionReplyOptions } from "discord.js";
 import { Command } from "../registry/Command";
 import Database from "../../Database";
 
@@ -8,7 +8,7 @@ export default class RunDbCommand extends Command {
     }
 
     public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         await interaction.client.application.fetch();
         const owner = interaction.client.application.owner;
@@ -39,11 +39,12 @@ export default class RunDbCommand extends Command {
     }
 
     public async executeGet(interaction: ChatInputCommandInteraction): Promise<void> {
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+
         const query = interaction.options.getString("query", true);
         const results = await Database.getAll(query);
 
-        const messageToSend: InteractionReplyOptions = {
-            ephemeral: true,
+        const messageToSend: InteractionEditReplyOptions = {
         }
 
         if (results.length > 0) {
@@ -60,14 +61,15 @@ export default class RunDbCommand extends Command {
     }
 
     public async executeRun(interaction: ChatInputCommandInteraction): Promise<void> {
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+
         const query = interaction.options.getString("query", true);
         let error: any = null;
         await Database.run(query).catch((err) => {
             error = err;
         });
 
-        const messageToSend: InteractionReplyOptions = {
-            ephemeral: true,
+        const messageToSend: InteractionEditReplyOptions = {
         }
 
         if (error) {

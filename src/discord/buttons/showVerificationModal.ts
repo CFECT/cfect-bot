@@ -1,4 +1,4 @@
-import { ButtonInteraction, ModalBuilder, TextInputBuilder, ActionRowBuilder, TextInputStyle } from "discord.js";
+import { ActionRowBuilder, ButtonInteraction, MessageFlags, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 import { Button } from "../registry/Button";
 import Database from "../../Database";
 
@@ -10,13 +10,13 @@ export default class ShowVerificationModalButton extends Button {
     public async execute(interaction: ButtonInteraction): Promise<void> {
         const verification = await Database.get("SELECT * FROM Verifications WHERE DiscordID = ?", [interaction.user.id]);
         if (verification) {
-            await interaction.reply({ content: "Já tens um pedido de verificação pendente.", ephemeral: true });
+            await interaction.reply({ content: "Já tens um pedido de verificação pendente.", flags: MessageFlags.Ephemeral });
             return;
         }
 
         const user = await Database.get("SELECT * FROM Users WHERE DiscordID = ?", [interaction.user.id]);
         if (user) {
-            await interaction.reply({ content: "Já tens uma conta associada.", ephemeral: true });
+            await interaction.reply({ content: "Já tens uma conta associada.", flags: MessageFlags.Ephemeral });
             return;
         }
 

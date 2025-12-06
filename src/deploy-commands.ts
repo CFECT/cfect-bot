@@ -92,6 +92,45 @@ const cfect_commands = [
         .addUserOption(option => option.setName('utilizador').setDescription('Utilizador a consultar').setRequired(true))
         .setDefaultMemberPermissions(0),
 
+    new SlashCommandBuilder().setName('find-user').setDescription('Procura utilizadores')
+        .addStringOption(option => option.setName('query').setDescription('Query a procurar (número mecanográfico ou parte do nome)').setRequired(true))
+        .setDefaultMemberPermissions(0),
+
+    new SlashCommandBuilder().setName('bank').setDescription('Controla o banco')
+        .addSubcommandGroup(group =>
+            group.setName('account').setDescription('Operações da conta')
+                .addSubcommand(subcommand =>
+                    subcommand.setName('balance').setDescription('Mostra o saldo atual do banco'))
+                .addSubcommand(subcommand =>
+                    subcommand.setName('report').setDescription('Gera um relatório de transações em PDF')))
+        .addSubcommandGroup(group =>
+            group.setName('transaction').setDescription('Operações de transações')
+                .addSubcommand(subcommand =>
+                    subcommand.setName('info').setDescription('Mostra a informação de uma transação específica')
+                        .addStringOption(option => option.setName('id').setDescription('ID da transação').setRequired(true)))
+                .addSubcommand(subcommand =>
+                    subcommand.setName('deposit').setDescription('Deposita dinheiro no banco')
+                        .addIntegerOption(option => option.setName('amount').setDescription('Quantia a depositar').setRequired(true))
+                        .addStringOption(option => option.setName('description').setDescription('Descrição do depósito').setRequired(true))
+                        .addStringOption(option => option.setName('foreign-name').setDescription('Nome estrangeiro associado ao depósito').setRequired(true))
+                        .addStringOption(option => option.setName('category').setDescription('Categoria do depósito').setRequired(false))
+                        .addAttachmentOption(option => option.setName('comprovativo').setDescription('Comprovativo do depósito').setRequired(false)))
+                .addSubcommand(subcommand =>
+                    subcommand.setName('withdrawal').setDescription('Levanta dinheiro do banco')
+                        .addIntegerOption(option => option.setName('amount').setDescription('Quantia a levantar').setRequired(true))
+                        .addStringOption(option => option.setName('description').setDescription('Descrição do levantamento').setRequired(true))
+                        .addStringOption(option => option.setName('foreign-name').setDescription('Nome estrangeiro associado ao levantamento').setRequired(true))
+                        .addStringOption(option => option.setName('category').setDescription('Categoria do levantamento').setRequired(false))
+                        .addAttachmentOption(option => option.setName('comprovativo').setDescription('Comprovativo do levantamento').setRequired(false)))
+                .addSubcommand(subcommand =>
+                    subcommand.setName('add-attachment').setDescription('Adiciona um anexo a uma transação existente')
+                        .addStringOption(option => option.setName('id').setDescription('ID da transação').setRequired(true))
+                        .addAttachmentOption(option => option .setName('attachment').setDescription('Anexo a adicionar').setRequired(true)))
+                .addSubcommand(subcommand =>
+                    subcommand.setName('delete').setDescription('Elimina uma transação existente')
+                        .addStringOption(option => option.setName('id').setDescription('ID da transação').setRequired(true))))
+        .setDefaultMemberPermissions(0),
+
     new SlashCommandBuilder().setName('numero-aluviao-bulk').setDescription('Define o número de aluvião de vários utilizadores')
         .addAttachmentOption(option => option.setName('ficheiro').setDescription('Ficheiro CSV com os números mecanográficos e de aluvião').setRequired(true))
         .setDefaultMemberPermissions(0),
@@ -104,10 +143,6 @@ const cfect_commands = [
         .setDefaultMemberPermissions(0),
 
     new SlashCommandBuilder().setName('enforce-member-structure').setDescription('Atualiza os nomes e roles dos utilizadores')
-        .setDefaultMemberPermissions(0),
-
-    new SlashCommandBuilder().setName('find-user').setDescription('Procura utilizadores')
-        .addStringOption(option => option.setName('query').setDescription('Query a procurar (número mecanográfico ou parte do nome)').setRequired(true))
         .setDefaultMemberPermissions(0),
 
     new ContextMenuCommandBuilder().setName('Completar faina').setType(ApplicationCommandType.User)

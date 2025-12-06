@@ -1,4 +1,4 @@
-import { Client, TextBasedChannel, User } from "discord.js";
+import { Client, TextBasedChannel, TextChannel, User } from "discord.js";
 import { resolve } from "path";
 
 import Constants from "../../Constants";
@@ -13,7 +13,7 @@ class Backups {
     }
 
     public async backup(creator?: User | null) {
-        const channel = await this.client?.channels.fetch(Constants.BACKUPS.CHANNEL_ID) as TextBasedChannel;
+        const channel = await this.client?.channels.fetch(Constants.BACKUPS.CHANNEL_ID) as TextChannel;
         if (!channel) return;
 
         const now = Math.floor(Date.now() / 1000);

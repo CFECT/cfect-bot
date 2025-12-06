@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction, CommandInteraction, MessageFlags } from "discord.js";
 import { Command } from "../registry/Command";
 import Database from "../../Database";
 import Constants from "../../Constants";
@@ -9,8 +9,8 @@ export default class CompletarFainaCommand extends Command {
         super("completar-faina", "Marca/desmarca a faina de um utilizador como completa");
     }
 
-    public async execute(interaction: CommandInteraction): Promise<void> {
-        await interaction.deferReply({ ephemeral: true});
+    public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral});
 
         const user = interaction.options.get('utilizador')?.user;
         const discordId = user?.id;

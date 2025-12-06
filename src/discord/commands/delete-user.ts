@@ -1,4 +1,4 @@
-import { Team, ChatInputCommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction, MessageFlags, Team } from "discord.js";
 import { Command } from "../registry/Command";
 import Database from "../../Database";
 
@@ -35,18 +35,18 @@ export default class DeleteUserCommand extends Command {
         const discordId = interaction.options.getString("discord-id");
 
         if (!nmec && !discordId) {
-            await interaction.reply({ content: "You must provide either a nmec or a discord-id.", ephemeral: true });
+            await interaction.reply({ content: "You must provide either a nmec or a discord-id.", flags: MessageFlags.Ephemeral });
             return;
         }
 
         const userDb = await Database.get("SELECT * FROM Users WHERE NMec = ? OR DiscordID = ?", [nmec, discordId]);
         if (!userDb) {
-            await interaction.reply({ content: "User not found.", ephemeral: true });
+            await interaction.reply({ content: "User not found.", flags: MessageFlags.Ephemeral });
             return;
         }
 
         await Database.run("DELETE FROM Users WHERE NMec = ? OR DiscordID = ?", [nmec, discordId]);
-        await interaction.reply({ content: `User with NMec ${userDb.NMec} and DiscordID ${userDb.DiscordID} has been deleted.`, ephemeral: true });
+        await interaction.reply({ content: `User with NMec ${userDb.NMec} and DiscordID ${userDb.DiscordID} has been deleted.`, flags: MessageFlags.Ephemeral });
     }
 }
 

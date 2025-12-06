@@ -1,4 +1,4 @@
-import { Client, EmbedBuilder, Message, TextBasedChannel } from 'discord.js';
+import { Client, EmbedBuilder, Message, TextBasedChannel, TextChannel } from 'discord.js';
 import Constants from '../../Constants';
 
 export async function run(client: Client, message: Message) {
@@ -9,7 +9,7 @@ export async function run(client: Client, message: Message) {
 }
 
 async function handleDmMessage(client: Client, message: Message) {
-    const dms_channel = await client.channels.fetch(Constants.DMS_CHANNEL_ID) as TextBasedChannel;
+    const dms_channel = await client.channels.fetch(Constants.DMS_CHANNEL_ID) as TextChannel;
 
     const embed = new EmbedBuilder()
         .setAuthor({

@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, UserContextMenuCommandInteraction } from "discord.js";
+import { ActionRowBuilder, MessageFlags, ModalBuilder, TextInputBuilder, TextInputStyle, UserContextMenuCommandInteraction } from "discord.js";
 import Database from "../../Database";
 import { UserContextMenu } from "../registry/UserContextMenu";
 
@@ -13,13 +13,13 @@ export default class EditUserUCM extends UserContextMenu {
         const member = interaction.guild?.members.cache.get(discordId as string);
 
         if (!member) {
-            await interaction.reply({ content: "Não foi possível encontrar o utilizador.", ephemeral: true });
+            await interaction.reply({ content: "Não foi possível encontrar o utilizador.", flags: MessageFlags.Ephemeral });
             return;
         }
 
         const userDb = await Database.get("SELECT * FROM Users WHERE DiscordID = ?", [discordId]);
         if (!userDb) {
-            await interaction.reply({ content: "Não foi possível encontrar o utilizador.", ephemeral: true });
+            await interaction.reply({ content: "Não foi possível encontrar o utilizador.", flags: MessageFlags.Ephemeral });
             return;
         }
 

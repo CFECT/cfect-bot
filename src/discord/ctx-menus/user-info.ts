@@ -1,4 +1,4 @@
-import { EmbedBuilder, UserContextMenuCommandInteraction } from "discord.js";
+import { EmbedBuilder, MessageFlags, UserContextMenuCommandInteraction } from "discord.js";
 import Database from "../../Database";
 import Constants from "../../Constants";
 import { UserContextMenu } from "../registry/UserContextMenu";
@@ -9,7 +9,7 @@ export default class UserInfoUCM extends UserContextMenu {
     }
 
     public async execute(interaction: UserContextMenuCommandInteraction): Promise<void> {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const user = interaction.targetUser;
         const discordId = user?.id;

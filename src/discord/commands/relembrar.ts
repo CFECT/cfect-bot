@@ -1,4 +1,4 @@
-import { ActionRowBuilder, EmbedBuilder, MentionableSelectMenuBuilder, PermissionsBitField, type ChatInputCommandInteraction } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, MentionableSelectMenuBuilder, MessageFlags, PermissionsBitField, TextChannel, type ChatInputCommandInteraction } from "discord.js";
 import { Command } from "../registry/Command";
 import Reminders from "../managers/Reminders";
 import Duration from "../../Duration"
@@ -9,7 +9,7 @@ export default class RelembrarCommand extends Command {
     }
 
     public async execute(interaction: ChatInputCommandInteraction) {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const timeInput = interaction.options.getString("time", true);
         const messageInput = interaction.options.getString("message", true);
@@ -57,7 +57,8 @@ export default class RelembrarCommand extends Command {
                 iconURL: interaction.user.displayAvatarURL()
             });
 
-        await interaction.channel?.send({ embeds: [embed] });
+        const channel = interaction.channel as TextChannel;
+        await channel.send({ embeds: [embed] });
 
         if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.MentionEveryone)) {
             await interaction.editReply("Lembrete registado com sucesso.");

@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "deploy": "node dist/deploy-commands.js"
   },
   "repository": {
     "type": "git",
@@ -18,9 +19,12 @@
   },
   "homepage": "https://github.com/CFECT/discord-bot#readme",
   "dependencies": {
+    "@types/pdfkit": "^0.17.4",
+    "axios": "^1.13.2",
     "discord.js": "^14.15.2",
     "dotenv": "^16.4.5",
     "node-scp": "^0.0.23",
+    "pdfkit": "^0.17.2",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {

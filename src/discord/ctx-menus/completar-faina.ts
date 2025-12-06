@@ -1,4 +1,4 @@
-import { UserContextMenuCommandInteraction } from "discord.js";
+import { MessageFlags, UserContextMenuCommandInteraction } from "discord.js";
 import { UserContextMenu } from "../registry/UserContextMenu";
 import Database from "../../Database";
 import Constants from "../../Constants";
@@ -10,7 +10,7 @@ export default class CompletarFainaUCM extends UserContextMenu {
     }
 
     public async execute(interaction: UserContextMenuCommandInteraction): Promise<void> {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const user = interaction.targetUser;
         const discordId = user.id;
