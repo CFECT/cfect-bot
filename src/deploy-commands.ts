@@ -20,6 +20,11 @@ const global_commands = [
     new SlashCommandBuilder().setName('eval').setDescription('Evaluates javascript code')
         .setDefaultMemberPermissions(0),
 
+    new SlashCommandBuilder().setName('logs').setDescription('Fetches the system logs for the bot service')
+        .addIntegerOption(option => option.setName('lines').setDescription('Number of lines to fetch').setRequired(false))
+        .addStringOption(option => option.setName('since').setDescription('Fetch logs since a specific time (e.g., "1h", "1w", etc.)').setRequired(false))
+        .setDefaultMemberPermissions(0),
+
     new SlashCommandBuilder().setName('run-db').setDescription('Runs a command on the database')
         .addSubcommand(subcommand =>
             subcommand.setName('get').setDescription('Gets data from tables on the database')

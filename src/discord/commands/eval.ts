@@ -1,7 +1,5 @@
-import { CommandInteraction, ButtonBuilder, ActionRowBuilder, ButtonStyle, Team, ChatInputCommandInteraction, codeBlock, GuildChannel, CategoryChannel, TextChannel, EmbedBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
+import { ActionRowBuilder, Team, ChatInputCommandInteraction, ModalBuilder, TextInputBuilder, TextInputStyle, LabelBuilder } from "discord.js";
 import { Command } from "../registry/Command";
-import { inspect } from "util";
-import { Type } from "../../Type";
 
 export default class EvalCommand extends Command {
     constructor() {
