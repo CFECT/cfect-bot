@@ -1,6 +1,7 @@
 import { ChatInputCommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
 import { Command } from "../registry/Command";
 import Constants from "../../Constants";
+import Logger from "../../Logger";
 import BankUtils from "../../BankUtils";
 import axios from "axios";
 
@@ -17,6 +18,8 @@ export default class BankCommand extends Command {
 
         if (subcommandGroup === "account") {
             if (subcommand === "balance") {
+                Logger.info(`[BANK] User ${interaction.user.username} (${interaction.user.id}) requested bank balance.`);
+
                 const result = await BankUtils.getBalance();
 
                 const embed = new EmbedBuilder()
@@ -43,6 +46,8 @@ export default class BankCommand extends Command {
             }
 
             if (subcommand === "report") {
+                Logger.info(`[BANK] User ${interaction.user.username} (${interaction.user.id}) requested transactions PDF report.`);
+
                 const embed = new EmbedBuilder()
                     .setTitle("Gerando Relatório")
                     .setDescription("A gerar o relatório de transações em PDF...")
@@ -86,6 +91,8 @@ export default class BankCommand extends Command {
         if (subcommandGroup === "transaction") {
             if (subcommand === "info") {
                 const transactionId = interaction.options.getString('id', true);
+
+                Logger.info(`[BANK] User ${interaction.user.username} (${interaction.user.id}) requested info for transaction #${transactionId}.`);
 
                 const result = await BankUtils.getTransactionInfo(transactionId);
 
@@ -151,6 +158,8 @@ export default class BankCommand extends Command {
                 const transactionId = interaction.options.getString('id', true);
                 const attachment = interaction.options.getAttachment('attachment', true);
 
+                Logger.info(`[BANK] User ${interaction.user.username} (${interaction.user.id}) is adding an attachment to transaction #${transactionId}.`);
+
                 let attachmentData: { buffer: Buffer; filename: string; contentType: string };
 
                 try {
@@ -191,11 +200,15 @@ export default class BankCommand extends Command {
                 }
 
                 await interaction.editReply({ embeds: [embed] });
+
+                Logger.info(`[BANK] Attachment added to transaction #${transactionId} by user ${interaction.user.username} (${interaction.user.id}).`);
                 return;
             }
 
             if (subcommand === "delete") {
                 const transactionId = interaction.options.getString('id', true);
+
+                Logger.info(`[BANK] User ${interaction.user.username} (${interaction.user.id}) is deleting transaction #${transactionId}.`);
 
                 const result = await BankUtils.deleteTransaction(transactionId);
 
@@ -216,6 +229,8 @@ export default class BankCommand extends Command {
                 }
 
                 await interaction.editReply({ embeds: [embed] });
+
+                Logger.info(`[BANK] Transaction #${transactionId} deleted by user ${interaction.user.username} (${interaction.user.id}).`);
                 return;
             }
 
@@ -225,6 +240,8 @@ export default class BankCommand extends Command {
                 const foreignName = interaction.options.getString('foreign-name', true);
                 const category = interaction.options.getString('category') || undefined;
                 const attachment = interaction.options.getAttachment('comprovativo');
+
+                Logger.info(`[BANK] User ${interaction.user.username} (${interaction.user.id}) is creating a ${subcommand} transaction of €${value.toFixed(2)} ${subcommand === "deposit" ? "from" : "to"} ${foreignName}.`);
 
                 let attachmentData: { buffer: Buffer; filename: string; contentType: string } | undefined;
 
@@ -293,6 +310,8 @@ export default class BankCommand extends Command {
                 }
 
                 await interaction.editReply({ embeds: [embed] });
+
+                Logger.info(`[BANK] ${type === 'deposit' ? 'Deposit' : 'Withdrawal'} transaction by user ${interaction.user.username} (${interaction.user.id}) completed.`);
                 return;
             }
         }
