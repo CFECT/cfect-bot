@@ -53,7 +53,7 @@ export default class EditUserModal extends Modal {
             return;
         }
 
-        if (Number(matricula.value) >= 5)
+        if (Number(matricula.value) >= 5 && verification.FainaCompleta)
             await member?.roles.add(Constants.ROLES.MESTRE);
         else
             await member?.roles.remove(Constants.ROLES.MESTRE);

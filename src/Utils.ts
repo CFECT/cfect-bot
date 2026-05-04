@@ -76,7 +76,7 @@ class Utils {
             await Database.run(query, [year, member.id]).then(async () => {
                 if (year <= 5)
                     await Utils.updateNickname(member);
-                if (year >= 5)
+                if (year >= 5 && user.FainaCompleta)
                     await member.roles.add(Constants.ROLES.MESTRE);
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }).catch((error) => {
@@ -325,9 +325,9 @@ class Utils {
 
             const formattedName = await Utils.getFormattedName(user);
             if (user.nickname !== formattedName) await user.setNickname(formattedName, "Correção de nomes automática");
-            if (userDb.Matricula >= 5 && !user.roles.cache.has(Constants.ROLES.MESTRE))
+            if (userDb.Matricula >= 5 && !user.roles.cache.has(Constants.ROLES.MESTRE) && userDb.FainaCompleta)
                 await user.roles.add(Constants.ROLES.MESTRE);
-            else if (userDb.Matricula < 5 && user.roles.cache.has(Constants.ROLES.MESTRE))
+            else if (!userDb.FainaCompleta || (userDb.Matricula < 5 && user.roles.cache.has(Constants.ROLES.MESTRE)))
                 await user.roles.remove(Constants.ROLES.MESTRE);
         }
     }
