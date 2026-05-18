@@ -150,6 +150,12 @@ const cfect_commands = [
     new SlashCommandBuilder().setName('enforce-member-structure').setDescription('Atualiza os nomes e roles dos utilizadores')
         .setDefaultMemberPermissions(0),
 
+    new SlashCommandBuilder().setName('set-cargo').setDescription('Atualiza os cargos da faina')
+        .addSubcommand(subcommand => subcommand.setName('mc').setDescription('Atualiza o Mestre de Curso')
+                       .addUserOption(option => option.setName('utilizador').setDescription('Novo mestre de curso').setRequired(true)))
+        .addSubcommand(subcommand => subcommand.setName('cf').setDescription('Atualiza a Comissão de Faina'))
+        .setDefaultMemberPermissions(0),
+
     new ContextMenuCommandBuilder().setName('Completar faina').setType(ApplicationCommandType.User)
         .setDefaultMemberPermissions(0).setDMPermission(false),
 
