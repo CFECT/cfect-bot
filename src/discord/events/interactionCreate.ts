@@ -3,6 +3,7 @@ import { MessageFlags } from "discord.js";
 import CommandRegistry from "../registry/CommandRegistry";
 import ButtonRegistry from "../registry/ButtonRegistry";
 import ModalRegistry from "../registry/ModalRegistry";
+import UserSelectMenuRegistry from "../registry/UserSelectMenuRegistry";
 import UserContextMenuRegistry from "../registry/UserContextMenuRegistry";
 import MentionableSelectMenuRegistry from "../registry/MentionableSelectMenuRegistry";
 
@@ -10,6 +11,7 @@ export function run(_: Client, interaction: Interaction) {
     if (interaction.isChatInputCommand()) runCommand(_, interaction);
     else if (interaction.isModalSubmit()) runModal(_, interaction);
     else if (interaction.isButton()) runButton(_, interaction);
+    else if (interaction.isUserSelectMenu()) runUserSelectMenu(_, interaction);
     else if (interaction.isUserContextMenuCommand()) runUserContextMenu(_, interaction);
     else if (interaction.isMentionableSelectMenu()) runMentionableSelectMenu(_, interaction);
 }
@@ -99,6 +101,28 @@ function runUserContextMenu(_: Client, interaction: Interaction) {
     } catch (error) {
         console.error(error);
         interaction.reply({ content: "There was an error while executing this user context menu!", flags: MessageFlags.Ephemeral });
+    }
+}
+
+function runUserSelectMenu(_: Client, interaction: Interaction) {
+    // If the interaction is not a userSelectMenu, return
+    if (!interaction.isUserSelectMenu()) return;
+
+    // Get the userSelectMenu from the collection
+    const userSelectMenu = UserSelectMenuRegistry.getUserSelectMenu(interaction.customId);
+
+    // If the userSelectMenu does not exist, return
+    if (!userSelectMenu) {
+        interaction.reply({ content: "User Select Menu not found.", flags: MessageFlags.Ephemeral });
+        return;
+    }
+
+    // Try to run the userSelectMenu
+    try {
+        userSelectMenu.execute(interaction);
+    } catch (error) {
+        console.error(error);
+        interaction.reply({ content: "There was an error while executing this userSelectMenu!", flags: MessageFlags.Ephemeral });
     }
 }
 

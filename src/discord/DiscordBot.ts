@@ -2,6 +2,7 @@ import { readdirSync } from "fs";
 import { ActivityType, Client, IntentsBitField, Partials } from 'discord.js';
 import MentionableSelectMenuRegistry from "./registry/MentionableSelectMenuRegistry";
 import UserContextMenuRegistry from "./registry/UserContextMenuRegistry";
+import UserSelectMenuRegistry from "./registry/UserSelectMenuRegistry";
 import CommandRegistry from "./registry/CommandRegistry";
 import ButtonRegistry from "./registry/ButtonRegistry";
 import ModalRegistry from "./registry/ModalRegistry";
@@ -37,6 +38,7 @@ class DiscordBot {
         await Enforcers.init(this.client);
         MentionableSelectMenuRegistry.registerMentionableSelectMenus();
         UserContextMenuRegistry.registerUserContextMenus();
+        UserSelectMenuRegistry.registerUserSelectMenus();
         CommandRegistry.registerCommands();
         ButtonRegistry.registerButtons();
         ModalRegistry.registerModals();
