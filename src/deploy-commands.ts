@@ -152,7 +152,7 @@ const cfect_commands = [
 
     new SlashCommandBuilder().setName('set-cargo').setDescription('Atualiza os cargos da faina')
         .addSubcommand(subcommand => subcommand.setName('mc').setDescription('Atualiza o Mestre de Curso')
-                       .addUserOption(option => option.setName('utilizador').setDescription('Novo mestre de curso').setRequired(true)))
+            .addUserOption(option => option.setName('utilizador').setDescription('Novo mestre de curso').setRequired(true)))
         .addSubcommand(subcommand => subcommand.setName('cf').setDescription('Atualiza a Comissão de Faina'))
         .setDefaultMemberPermissions(0),
 
