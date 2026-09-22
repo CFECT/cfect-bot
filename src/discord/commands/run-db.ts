@@ -39,8 +39,6 @@ export default class RunDbCommand extends Command {
     }
 
     public async executeGet(interaction: ChatInputCommandInteraction): Promise<void> {
-        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-
         const query = interaction.options.getString("query", true);
         const results = await Database.getAll(query);
 
@@ -61,8 +59,6 @@ export default class RunDbCommand extends Command {
     }
 
     public async executeRun(interaction: ChatInputCommandInteraction): Promise<void> {
-        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-
         const query = interaction.options.getString("query", true);
         let error: any = null;
         await Database.run(query).catch((err) => {
