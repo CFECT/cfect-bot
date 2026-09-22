@@ -40,7 +40,7 @@ export default class EvalModal extends Modal {
             type = new Type(error);
         }
 
-        if (result.length > 2000) {
+        if (result.length > 1000) {
             await interaction.editReply({
                 files: [{
                     attachment: Buffer.from(result),
