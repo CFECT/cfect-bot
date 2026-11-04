@@ -10,28 +10,6 @@ export default class CompletarFainaBulkCommand extends Command {
 
     public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-        await interaction.client.application.fetch();
-        const owner = interaction.client.application.owner;
-        if (!owner) {
-            await interaction.editReply({ content: "Could not find bot owner." });
-            return;
-        }
-
-        if (owner instanceof Team) {
-            if (owner.members.size === 0) {
-                await interaction.editReply({ content: "Could not find bot owner." });
-                return;
-            }
-            if (!owner.members.has(interaction.user.id)) {
-                await interaction.editReply({ content: "You are not the bot owner." });
-                return;
-            }
-        } else {
-            if (owner.id !== interaction.user.id) {
-                await interaction.editReply({ content: "You are not the bot owner." });
-                return;
-            }
-        }
 
         await interaction.editReply({ content: "File added to processing." });
 
